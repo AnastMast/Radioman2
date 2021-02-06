@@ -8,24 +8,30 @@ public class RadioTest {
     @Test
     void changeRadioStationByRemoteControl() {
         Radio radio = new Radio();
-        assertEquals(1, radio.changeRadioStationByRemoteControl(1));
+        int newRadioStationIndex = radio.getMaxRadioStationIndex() / 2;
+        assertEquals(newRadioStationIndex, radio.changeRadioStationByRemoteControl(newRadioStationIndex));
     }
 
     @Test
-    void ChangeTheStationByRemoteControlIfNumberIsOverMax() {
+    void changeTheStationByRemoteControlIfNumberIsOverMax() {
         Radio radio = new Radio();
-        assertEquals(1, radio.changeRadioStationByRemoteControl(12));
-    }
-    @Test
-    void ChangeTheStationByRemoteControlIfNumberIsLessMin() {
-        Radio radio = new Radio();
-        assertEquals(1, radio.changeRadioStationByRemoteControl(-15));
+        int currentRadioStation = radio.getCurrentRadioStation();
+        radio.changeRadioStationByRemoteControl(radio.getMaxRadioStationIndex() + 1);
+        assertEquals(currentRadioStation, radio.getCurrentRadioStation());
     }
 
     @Test
-    void ChangeTheStationByButtonNextIfCurrentIsNine() {
+    void changeTheStationByRemoteControlIfNumberIsLessMin() {
         Radio radio = new Radio();
-        radio.setCurrentRadioStation(9);
+        int currentRadioStation = radio.getCurrentRadioStation();
+        radio.changeRadioStationByRemoteControl(radio.getMinRadioStationIndex() - 1);
+        assertEquals(currentRadioStation, radio.getCurrentRadioStation());
+    }
+
+    @Test
+    void changeTheStationByButtonNextIfCurrentIsMaximum() {
+        Radio radio = new Radio();
+        radio.switchToMaxStation();
         radio.changeStationByNextButton();
         assertEquals(0, radio.getCurrentRadioStation());
     }
@@ -33,22 +39,24 @@ public class RadioTest {
     @Test
     void changeStationByNextButton() {
         Radio radio = new Radio();
+        int currentRadioStation = radio.getCurrentRadioStation();
         radio.changeStationByNextButton();
-        assertEquals(2, radio.getCurrentRadioStation());
+        assertEquals(currentRadioStation + 1, radio.getCurrentRadioStation());
     }
 
     @Test
-    void ChangeTheStationByPrevButtonIfCurrentIsNull() {
+    void changeTheStationByPrevButtonIfCurrentIsMin() {
         Radio radio = new Radio();
-        radio.setCurrentRadioStation(0);
+        radio.switchToMinStation();
         radio.changeStationByPrevButton();
-        assertEquals(9, radio.getCurrentRadioStation());
+        assertEquals(radio.getMaxRadioStationIndex(), radio.getCurrentRadioStation());
     }
 
 
     @Test
     void changeStationByPrevButton() {
         Radio radio = new Radio();
+        radio.setCurrentRadioStation(1);
         radio.changeStationByPrevButton();
         assertEquals(0, radio.getCurrentRadioStation());
     }
@@ -56,30 +64,32 @@ public class RadioTest {
     @Test
     void increaseVolume() {
         Radio radio = new Radio();
-        radio.changeToVolumeMax();
-        assertEquals(2, radio.getCurrentVolume());
+        radio.setCurrentVolume(5);
+        radio.increaseVolume();
+        assertEquals(6, radio.getCurrentVolume());
     }
 
     @Test
-    void DecreaseVolume() {
+    void decreaseVolume() {
         Radio radio = new Radio();
-        radio.changeToVolumeMin();
-        assertEquals(0, radio.getCurrentVolume());
+        radio.setCurrentVolume(5);
+        radio.decreaseVolume();
+        assertEquals(4, radio.getCurrentVolume());
     }
 
     @Test
-    void DecreaseVolumeIfMin() {
+    void decreaseVolumeIfMin() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(0);
-        radio.changeToVolumeMin();
-        assertEquals(0, radio.getCurrentVolume());
+        radio.setMinVolume();
+        radio.decreaseVolume();
+        assertEquals(radio.getMinVolume(), radio.getCurrentVolume());
     }
 
     @Test
     void increaseVolumeAboveMax() {
         Radio radio = new Radio();
-        radio.setCurrentVolume(10);
-        radio.changeToVolumeMax();
-        assertEquals(10, radio.getCurrentVolume());
+        radio.setMaxVolume();
+        radio.increaseVolume();
+        assertEquals(radio.getMaxVolume(), radio.getCurrentVolume());
     }
 }
