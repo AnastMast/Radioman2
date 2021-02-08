@@ -17,11 +17,6 @@ public class Radio {
         this.currentVolume = 50;
     }
 
-    public Radio() {
-        this(10, 0, 100);
-    }
-
-
     public int changeRadioStationByRemoteControl(int newRadioStationIndex) {
         if (newRadioStationIndex >= minRadioStationIndex && newRadioStationIndex <= maxRadioStationIndex) {
             currentRadioStationIndex = newRadioStationIndex;

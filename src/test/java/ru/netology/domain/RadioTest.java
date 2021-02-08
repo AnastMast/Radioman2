@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RadioTest {
     @Test
     void changeRadioStationByRemoteControl() {
-        Radio radio = new Radio();
+        Radio radio = new Radio(10, 0, 100);
         int newRadioStationIndex = radio.getMaxRadioStationIndex() / 2;
         assertEquals(newRadioStationIndex, radio.changeRadioStationByRemoteControl(newRadioStationIndex));
     }
