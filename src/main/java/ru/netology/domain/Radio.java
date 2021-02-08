@@ -8,18 +8,19 @@ public class Radio {
     private int maxVolume;
     private int minVolume;
 
-    public Radio(int radioStationCount) {
+    public Radio(int radioStationCount, int minVolume, int maxVolume) {
         this.maxRadioStationIndex = radioStationCount - 1;
         this.minRadioStationIndex = 0;
-        this.maxVolume = 100;
-        this.minVolume = 0;
-        this.currentRadioStationIndex = 0;
+        this.maxVolume = maxVolume;
+        this.minVolume = minVolume;
+        this.currentRadioStationIndex = minRadioStationIndex;
         this.currentVolume = 50;
     }
 
     public Radio() {
-        this(10);
+        this(10, 0, 100);
     }
+
 
     public int changeRadioStationByRemoteControl(int newRadioStationIndex) {
         if (newRadioStationIndex >= minRadioStationIndex && newRadioStationIndex <= maxRadioStationIndex) {
